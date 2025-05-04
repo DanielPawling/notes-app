@@ -1,0 +1,39 @@
+<div class="row mt-4">
+    <div class="col-md-4 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                Account Register
+            </div>
+            <div class="card-body">
+                <form action="/users/signup" method="POST">
+                    <!-- Campo Name -->
+                    <div class="form-group mb-3"> <!-- Agregado mb-3 para margen inferior -->
+                        <input type="text" class="form-control" name="name" placeholder="Name" value="{{name}}">
+                    </div>
+
+                    <!-- Campo Email -->
+                    <div class="form-group mb-3"> <!-- Agregado mb-3 para margen inferior -->
+                        <input type="email" class="form-control" name="email" placeholder="Email" value="{{email}}">
+                    </div>
+
+                    <!-- Campo Password -->
+                    <div class="form-group mb-3"> <!-- Agregado mb-3 para margen inferior -->
+                        <input type="password" class="form-control" name="password" placeholder="Password" value="{{password}}">
+                    </div>
+
+                    <!-- Campo Confirm Password -->
+                    <div class="form-group mb-3"> <!-- Agregado mb-3 para margen inferior -->
+                        <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" value="{{confirm_password}}">
+                    </div>
+
+                    <!-- Botón SignUp -->
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary w-100"> <!-- Agregado w-100 para ancho completo -->
+                            SignUp
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
