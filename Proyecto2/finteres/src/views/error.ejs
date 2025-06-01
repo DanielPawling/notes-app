@@ -1,0 +1,19 @@
+<!-- src/views/error.ejs -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('partials/head') %>
+    <title>Error</title>
+</head>
+<body>
+    <%- include('partials/navigation') %>
+    
+    <div class="container mt-5">
+        <div class="alert alert-danger">
+            <h1>Error</h1>
+            <p><%= error %></p>
+            <a href="/" class="btn btn-primary">Volver al inicio</a>
+        </div>
+    </div>
+</body>
+</html>

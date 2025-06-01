@@ -1,0 +1,15 @@
+{
+  "name": "proyecto-root",
+  "scripts": {
+    "start:notes": "cd notes-app && npm run dev",
+    "start:finteres": "cd finteres && npm run dev",
+    "dev": "concurrently \"npm run start:notes\" \"npm run start:finteres\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "method-override": "^3.0.0",
+    "multer": "^2.0.0"
+  }
+}

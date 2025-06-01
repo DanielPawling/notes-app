@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mercado Pin - <%= image.title %></title>
+    <%- include("partials/head")%>
+    <style>
+        :root {
+            --primary-color: #e60023;
+            --secondary-color: #333333;
+            --success-color: #00a650;
+            --light-color: #f5f5f5;
+            --white-color: #ffffff;
+            --gray-color: #767676;
+            --border-color: #e1e1e1;
+            --info-color: #17a2b8;
+            --category-color: #6f42c1;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #fafafa;
+            color: var(--secondary-color);
+        }
+        
+        .compact-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 15px;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .compact-card {
+            background: var(--white-color);
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto 1fr auto;
+            grid-template-areas:
+                "image header"
+                "image description"
+                "meta actions";
+            height: 500px;
+            transform: scale(0.95);
+            animation: cardAppear 0.6s ease-out 0.3s forwards;
+        }
+        
+        @keyframes cardAppear {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        .product-image-container {
+            grid-area: image;
+            position: relative;
+            border-right: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: var(--light-color);
+            padding: 15px;
+            opacity: 0;
+            animation: imageFadeIn 0.8s ease-out 0.5s forwards;
+        }
+        
+        @keyframes imageFadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .product-header {
+            grid-area: header;
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            opacity: 0;
+            animation: fadeInContent 0.6s ease-out 0.7s forwards;
+        }
+        
+        .product-description-container {
+            grid-area: description;
+            padding: 20px;
+            overflow-y: auto;
+            word-wrap: break-word;
+            overflow-x: hidden;
+            opacity: 0;
+            animation: fadeInContent 0.6s ease-out 0.9s forwards;
+        }
+        
+        .product-meta {
+            grid-area: meta;
+            padding: 15px 20px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: #f9f9f9;
+            opacity: 0;
+            animation: fadeInContent 0.6s ease-out 1.1s forwards;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+        }
+        
+        .meta-icon {
+            font-size: 1rem;
+            color: var(--gray-color);
+        }
+        
+        .location-text {
+            color: var(--info-color);
+            font-weight: 500;
+        }
+        
+        .category-text {
+            color: var(--category-color);
+            font-weight: 500;
+        }
+        
+        .product-actions {
+            grid-area: actions;
+            padding: 15px 20px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            background: #f9f9f9;
+            opacity: 0;
+            animation: fadeInContent 0.6s ease-out 1.1s forwards;
+        }
+        
+        @keyframes fadeInContent {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .product-description {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #555;
+            word-break: break-word;
+            white-space: pre-line;
+            overflow-wrap: anywhere;
+        }
+        
+        /* Scrollbar personalizada */
+        .product-description-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .product-description-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        
+        .product-description-container::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+        
+        /* Efectos para botones */
+        .buy-btn, .btn-edit, .btn-delete {
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transform-origin: center;
+        }
+        
+        .buy-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .buy-btn:hover {
+            background-color: #008a43;
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+        }
+        
+        .buy-btn:active {
+            transform: scale(0.98);
+        }
+        
+        .action-btns {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-edit, .btn-delete {
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .btn-edit {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+        }
+        
+        .btn-edit:hover {
+            background-color: #cc001f;
+            transform: scale(1.05);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+        }
+        
+        .btn-delete {
+            background-color: transparent;
+            border: 1px solid #ff4d4d;
+            color: #ff4d4d;
+        }
+        
+        .btn-delete:hover {
+            background-color: #ff4d4d;
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+        }
+        
+        @media (max-width: 768px) {
+            .compact-card {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto auto auto auto;
+                grid-template-areas:
+                    "image"
+                    "header"
+                    "description"
+                    "meta"
+                    "actions";
+                height: auto;
+            }
+            
+            .product-image-container {
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                height: 300px;
+            }
+            
+            .product-meta {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .product-actions {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+    
+<body>
+    <%-include("partials/navigation")%>
+    
+    <div class="compact-container">
+        <div class="compact-card">
+            <!-- Sección izquierda: Imagen -->
+            <div class="product-image-container">
+                <img src="<%= image.path %>" class="product-image" alt="<%= image.title %>">
+            </div>
+            
+            <!-- Sección superior derecha: Título y fecha -->
+            <div class="product-header">
+                <h1 class="product-title"><%= image.title %></h1>
+                <p class="product-date">Publicado hace <%= format(image.created_at) %></p>
+            </div>
+            
+            <!-- Sección central derecha: Descripción con scroll -->
+            <div class="product-description-container">
+                <p class="product-description"><%= image.description %></p>
+            </div>
+            
+            <!-- Sección inferior izquierda: Metadatos (ubicación y categoría) -->
+            <div class="product-meta">
+                <div class="meta-item">
+                    <i class="fas fa-map-marker-alt meta-icon"></i>
+                    <span class="location-text"><%= image.state %></span>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-tag meta-icon"></i>
+                    <span class="category-text"><%= image.category %></span>
+                </div>
+            </div>
+            
+            <!-- Sección inferior derecha: Botones -->
+            <div class="product-actions">
+                <% if (isOwner) { %>
+                <!-- Botones para el dueño -->
+                <div class="action-btns">
+                    <a href="/image/<%= image._id %>/edit" class="btn btn-edit">
+                        <i class="fas fa-edit"></i> Editar
+                    </a>
+                    <button onclick="confirmDelete('<%= image._id %>')" class="btn btn-delete">
+                        <i class="fas fa-trash-alt"></i> Borrar
+                    </button>
+                </div>
+                <% } else { %>
+                <!-- Botón de comprar con precio integrado -->
+                <a href="/image/<%= image._id %>/purchase" class="buy-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    Comprar: <%= new Intl.NumberFormat('es-MX', { 
+                        style: 'currency', 
+                        currency: 'MXN' 
+                    }).format(image.price || 0) %>
+                </a>  
+                <% } %>
+            </div>
+        </div>
+    </div>
+</body>
+
+<!-- Al final del body -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmDelete(imageId) {
+        Swal.fire({
+            title: 'Confirmar borrado',
+            text: "¿Estás seguro que deseas eliminar esta publicación permanentemente?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, borrar',
+            cancelButtonText: 'Cancelar',
+            backdrop: `
+                rgba(0,0,0,0.7)
+                url("/img/trash-animation.gif")
+                left top
+                no-repeat
+            `
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Mostrar loader mientras se borra
+                Swal.fire({
+                    title: 'Borrando...',
+                    html: 'Por favor espera',
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading();
+                        window.location.href = `/image/${imageId}/delete`;
+                    }
+                });
+            }
+        });
+    }
+</script>
+</html>

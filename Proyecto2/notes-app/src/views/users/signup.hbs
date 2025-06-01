@@ -1,0 +1,55 @@
+<div class="row mt-4">
+    <div class="col-md-6 col-lg-4 mx-auto">
+        <div class="card border-0 shadow-lg" style="border-radius: 16px; overflow: hidden;">
+            <div class="card-header text-white text-center py-3" style="background: linear-gradient(135deg, #6e45e2 0%, #88d3ce 100%);">
+                <h3 class="m-0" style="font-family: 'Arial Rounded MT Bold', sans-serif;">Join Our Community</h3>
+                <p class="m-0" style="opacity: 0.9; font-size: 0.9rem;">Create your free account</p>
+            </div>
+            <div class="card-body px-4 py-4" style="background-color: #f8f9fa;">
+                <form action="/users/signup" method="POST">
+                    <!-- Campo Name -->
+                    <div class="form-group mb-3">
+                        <label for="name" class="form-label small text-muted">Your Name</label>
+                        <input type="text" class="form-control py-2" id="name" name="name" placeholder="John Doe" value="{{name}}" 
+                               style="border-radius: 8px; border: 1px solid #e0e0e0;">
+                    </div>
+
+                    <!-- Campo Email -->
+                    <div class="form-group mb-3">
+                        <label for="email" class="form-label small text-muted">Email Address</label>
+                        <input type="email" class="form-control py-2" id="email" name="email" placeholder="your@email.com" value="{{email}}" 
+                               style="border-radius: 8px; border: 1px solid #e0e0e0;">
+                    </div>
+
+                    <!-- Campo Password -->
+                    <div class="form-group mb-3">
+                        <label for="password" class="form-label small text-muted">Password</label>
+                        <input type="password" class="form-control py-2" id="password" name="password" placeholder="••••••••" value="{{password}}" 
+                               style="border-radius: 8px; border: 1px solid #e0e0e0;">
+                    </div>
+
+                    <!-- Campo Confirm Password -->
+                    <div class="form-group mb-4">
+                        <label for="confirm_password" class="form-label small text-muted">Confirm Password</label>
+                        <input type="password" class="form-control py-2" id="confirm_password" name="confirm_password" placeholder="••••••••" value="{{confirm_password}}" 
+                               style="border-radius: 8px; border: 1px solid #e0e0e0;">
+                    </div>
+
+                    <!-- Botón SignUp -->
+                    <div class="form-group">
+                        <button type="submit" class="btn w-100 py-2 text-white fw-bold" 
+                                style="background: linear-gradient(135deg, #8a2be2 0%, #9370db 100%); 
+                                       border: none; 
+                                       border-radius: 12px;
+                                       box-shadow: 0 4px 6px rgba(148, 87, 235, 0.25);
+                                       transition: all 0.3s ease;">
+                            Sign Up
+                            <i class="bi bi-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
